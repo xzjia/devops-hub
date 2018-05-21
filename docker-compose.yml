@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  nginx:
+    build: nginx
+    environment:
+      REVERSE_PROXY_DOMAIN_NAME: localhost
+    ports:
+      - "80:80"
+    links:
+      - jenkins
+    restart: always
+
+  jenkins:
+    image: jenkins/jenkins:2.118
+    environment:
+      JENKINS_OPTS: --prefix=/jenkins
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    restart: always
+
+volumes:
+  jenkins_home:
